@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scroll of Wisdom</title>
+  <style>
+    body {
+      background: url('assets/scroll-background.webp') center/cover no-repeat;
+      font-family: 'Georgia', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      margin: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    #wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 3 / 4;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    #wrapper:hover {
+      transform: scale(1.03);
+    }
+
+    #scroll-closed,
+    #scroll-open {
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+    }
+
+    #scroll-text {
+      position: absolute;
+      top: 23%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 80%;
+      pointer-events: none;
+      z-index: 2;
+      line-height: 1.5;
+      color: #3a2e1d;
+      text-shadow: 0 1px 0 #fff;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    #scroll-text a {
+      color: #2a56a5;
+      text-decoration: underline;
+      pointer-events: auto;
+      word-break: break-word;
+    }
+
+    #scroll-text {
+      opacity: 1;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    #scroll-text.fade-out {
+      opacity: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      #scroll-text {
+        font-size: 1rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, 20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="wrapper">
+  <img id="scroll-closed" src="assets/scroll-closed-transparent.svg" alt="Scroll Closed" />
+  <img id="scroll-open" src="assets/scroll-open-transparent.svg" alt="Scroll Open" class="hidden" />
+  <div id="scroll-text" class="hidden"></div>
+</div>
+
+<script>
+  const wrapper = document.getElementById('wrapper');
+  const closedImg = document.getElementById('scroll-closed');
+  const openImg = document.getElementById('scroll-open');
+  const textDiv = document.getElementById('scroll-text');
+
+  let isOpen = false;
+  let textIndex = 0;
+
+  const texts = [
+    "Greetings, shinobi.\nYou have been chosen by fate itself.",
+    "In the hidden corners of the village, your name echoes in whispers.",
+    "Only a true ninja could decode this scroll… and you just did.",
+    "The path ahead is filled with unknowns. Shadows. Ramen.\nBut also… destiny.",
+    'Are you ready to accept the mission? <a href="https://example.com" target="_blank">archive of knowledge</a> and embrace the futility of existence.',
+  ];
+
+  wrapper.addEventListener('click', () => {
+    if (!isOpen) {
+      closedImg.classList.add('hidden');
+      openImg.classList.remove('hidden');
+      textDiv.classList.remove('hidden');
+      textDiv.innerHTML = texts[textIndex];
+      isOpen = true;
+    } else {
+      textIndex = (textIndex + 1) % texts.length;
+      textDiv.innerHTML = texts[textIndex];
+    }
+  });
+</script>
+
+</body>
+</html>
